@@ -257,9 +257,9 @@ def _find_first_transactions(
     period_transactions.loc[first_transactions, "first"] = True
     select_columns.append("first")
     # reset datetime_col to period
-    period_transactions.loc[:, datetime_col] = period_transactions[
-        datetime_col
-    ].dt.to_period(time_unit)
+    period_transactions['time_period'] = period_transactions[datetime_col].dt.to_period(time_unit)
+    period_transactions.drop(columns=datetime_col, inplace=True)
+    period_transactions.rename(columns={'time_period': datetime_col}, inplace=True)
 
     return period_transactions[select_columns]
 
